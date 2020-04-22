@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
 import Header from './Header';
 
 class HomeScreen extends React.Component {
@@ -17,7 +17,8 @@ class HomeScreen extends React.Component {
   getWeather = () => {
 
     cityName = "dhaka";
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&APPID=d7b1023e1d8d23485e603f31d14d9157`)
+    try {
+      fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&APPID=d7b1023e1d8d23485e603f31d14d9157`)
       .then(res => {
         return res.json()
       })
@@ -33,10 +34,17 @@ class HomeScreen extends React.Component {
             icon: data.weather[0].icon
           }
         })
+
         console.log("here data:")
         console.log(this.state)
       })
-      
+
+    }
+    catch (error) {
+ 
+      Alert.alert("Error"+ error.message+"please connect to internet",[{text: "ok"}])
+    }
+    
   }
 
   componentDidMount() {
