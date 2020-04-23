@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView  } from 'react-native';
-import { TextInput, Card, List} from 'react-native-paper';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { TextInput, Card, List, Button } from 'react-native-paper';
 import Header from './Header';
 
 class SearchScreen extends React.Component {
@@ -8,6 +8,10 @@ class SearchScreen extends React.Component {
   state = {
     text: '',
     city: []
+  }
+
+  buttonClick=()=>{
+    console.log("clicked")
   }
 
   fetchCity = (text) => {
@@ -43,11 +47,15 @@ class SearchScreen extends React.Component {
         <Header />
 
         <TextInput
+          style={{ backgroundColor: '#fff' }}
           label='City'
           value={this.state.text}
           onChangeText={text => this.fetchCity(text)}
         />
 
+        <Button style={{backgroundColor: '#fff',margin:20, padding: 10,}} onPress={() => this.buttonClick()}>
+          Press me
+        </Button>
         <ScrollView>
           {cityList}
         </ScrollView>
@@ -63,7 +71,7 @@ export default SearchScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'gray',
+    backgroundColor: '#8ed1fc',
     // alignItems: 'center',
     // justifyContent: 'center',
   },

@@ -5,11 +5,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator, } from '@react-navigation/bottom-tabs';
 import HomeScreen from './components/HomeScreen';
 import SearchScreen from './components/SearchScreen';
+import { color } from 'react-native-reanimated';
 
 
 function IconWithBadge({ name, badgeCount, color, size }) {
   return (
-    <View style={{ width: 24, height: 24, margin: 5 }}>
+    <View style={{ width: 24, height: 24, margin: 5,}}>
       <Ionicons name={name} size={size} color={color} />
       {badgeCount > 0 && (
         <View
@@ -49,15 +50,15 @@ class App extends React.Component {
     return (
       <NavigationContainer>
         <Tab.Navigator
-          screenOptions={({ route }) => ({
+         screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
-              if (route.name === 'Home') {
+              if (route.name === 'Cloud') {
                 return (
                   <HomeIconWithBadge
                     name={
                       focused
-                        ? 'ios-information-circle'
-                        : 'ios-information-circle-outline'
+                        ? 'ios-cloud'
+                        : 'ios-cloud'
                     }
                     size={size}
                     color={color}
@@ -66,22 +67,27 @@ class App extends React.Component {
               } else if (route.name === 'Search') {
                 return (
                   <Ionicons
-                    name={focused ? 'ios-list-box' : 'ios-list'}
+                    name={focused ? 'ios-search' : 'ios-search'}
                     size={size}
                     color={color}
                   />
                 );
               }
             },
-          })}
+          })
+        }
           tabBarOptions={{
-            activeTintColor: 'tomato',
+            activeTintColor: 'white',
             inactiveTintColor: 'gray',
+            activeBackgroundColor: '#1976d2',
+            inactiveBackgroundColor: '#1976d2',
           }}
+
+          backgroundColor= '#1976d2'
 
 
         >
-          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Cloud" component={HomeScreen} />
           <Tab.Screen name="Search" component={SearchScreen} />
         </Tab.Navigator>
       </NavigationContainer>
