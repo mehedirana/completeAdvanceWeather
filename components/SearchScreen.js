@@ -1,17 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { TextInput, Card, List, Button } from 'react-native-paper';
+import { AsyncStorage } from 'react-native';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { useNavigation } from '@react-navigation/native';
 import Header from './Header';
 
-class SearchScreen extends React.Component {
+class SearchScreen extends React.Component{
 
+  
   state = {
     text: '',
     city: []
   }
 
   buttonClick=()=>{
+    const { navigation } = this.props;
     console.log("clicked")
+    navigation.navigate('Cloud',{data2: this.state.text})
+    AsyncStorage.setItem('myCity',this.state.text)
   }
 
   fetchCity = (text) => {
@@ -27,6 +35,7 @@ class SearchScreen extends React.Component {
 
   }
   render() {
+    
 
     //console.log(this.state.city)
     cityList = <Card><List.Item title="no city" /></Card>
@@ -43,6 +52,7 @@ class SearchScreen extends React.Component {
     }
 
     return (
+      
       <View style={styles.container}>
         <Header />
 
