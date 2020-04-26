@@ -7,17 +7,16 @@ import { AsyncStorage } from 'react-native';
 // import { useNavigation } from '@react-navigation/native';
 import Header from './Header';
 
-
-class SearchScreen extends React.Component{
+const SearchScreen =({navigation, route})=>{
   
   state = {
     text: '',
     city: []
   }
-  componentDidUpdate=async()=>{
-    await AsyncStorage.setItem("myCity",this.state.text)
-    console.log("i m from search"+AsyncStorage.getItem("myCity"))  
- }
+//   componentDidUpdate=async()=>{
+//     await AsyncStorage.setItem("myCity",this.state.text)
+//     console.log("i m from search"+await AsyncStorage.getItem("myCity"))  
+//  }
 
  buttonClick= async()=>{
 
@@ -36,9 +35,9 @@ class SearchScreen extends React.Component{
     
   }
 
-  async componentDidMount(){
-    await AsyncStorage.setItem("myCity",this.state.text) 
-  }
+  // async componentDidMount(){
+  //   await AsyncStorage.setItem("myCity",this.state.text) 
+  // }
  
   fetchCity = (text) => {
 
@@ -52,16 +51,16 @@ class SearchScreen extends React.Component{
       })
   }
 
-  render() {
+  // render() {
     //console.log(this.state.city)
     cityList = <Card><List.Item title="no city" /></Card>
 
     if (this.state.city.length > 0) {
 
-      cityList = this.state.city.map(cities => {
+      cityList = this.state.city.map((cities, index) => {
         return (
-          <Card style={{ margin: 5 }} key={cities.lat} onPress={()=>this.listClicked(cities.name)}>
-            <List.Item title={cities.name} />
+          <Card style={{ margin: 5 }} key={index} onPress={()=>this.listClicked(cities.name)}>
+            <List.Item title={cities.name} key={index}/>
           </Card>
         )
       })
@@ -87,7 +86,7 @@ class SearchScreen extends React.Component{
     );
   }
 
-}
+// }
 
 export default SearchScreen;
 
@@ -95,7 +94,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#8ed1fc',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+
   },
 });

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, Alert, Image, AsyncStorage } from '
 import Header from './Header';
 import { Card, List, Title } from 'react-native-paper';
 import { color } from 'react-native-reanimated';
-class HomeScreen extends React.Component {
+const HomeScreen =({navigation})=>{
 
   state = {
     info: {
@@ -15,18 +15,23 @@ class HomeScreen extends React.Component {
     }
   };
 
-  componentDidUpdate=async()=>{
-    AsyncStorage.getItem("myCity")
-    console.log("i m from storage"+AsyncStorage.getItem("myCity"))  
- }
+//   componentDidUpdate=async()=>{
+//    // await AsyncStorage.getItem("myCity")
+//     await AsyncStorage.getItem("myCity");
+//     //console.log("i m from storage"+await AsyncStorage.getItem("myCity"))  
+//  }
   getWeather = async () => {
     
   //  // const { itemId } = navigation.getParam('cities', 'dhaka');
   //   const { otherParam } = route.params;
   
-  console.log(AsyncStorage.getItem("myCity"))  
-      cityName = "dhaka"
+  //console.log("final: ////////////////////////////////"+await AsyncStorage.getItem("myCity"))
 
+    cityName = await AsyncStorage.getItem("myCity")
+    if(!cityName){
+      cityName = "dhaka"
+    }
+    
     try {
       fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&APPID=d7b1023e1d8d23485e603f31d14d9157`)
         .then(res => {
@@ -57,11 +62,10 @@ class HomeScreen extends React.Component {
 
   }
 
-  async componentDidMount() {
-    this.getWeather()
-    console.log("i am from hmeeeeeeeeeeeeeeeeeeeeee....."+key)
-  }
-  render() {
+  // async componentDidMount() {
+  //   this.getWeather()
+  // }
+  // render() {
   
 
     return (
@@ -86,7 +90,7 @@ class HomeScreen extends React.Component {
     );
   }
 
-}
+// }
 
 export default HomeScreen;
 
