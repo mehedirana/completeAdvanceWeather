@@ -7,21 +7,39 @@ import { AsyncStorage } from 'react-native';
 // import { useNavigation } from '@react-navigation/native';
 import Header from './Header';
 
-class SearchScreen extends React.Component{
 
+class SearchScreen extends React.Component{
   
   state = {
     text: '',
     city: []
   }
+  componentDidUpdate=async()=>{
+    await AsyncStorage.setItem("myCity",this.state.text)
+    console.log("i m from search"+AsyncStorage.getItem("myCity"))  
+ }
 
-  buttonClick=()=>{
+ buttonClick= async()=>{
+
     const { navigation } = this.props;
-    console.log("clicked")
-    navigation.navigate('Cloud',{data2: this.state.text})
-    AsyncStorage.setItem('myCity',this.state.text)
+    await AsyncStorage.setItem("myCity",this.state.text)
+    navigation.navigate('Cloud')
+    // , {cities: this.state.text})
   }
 
+  listClicked= async(name)=>{
+     const { navigation } = this.props;
+     this.setState({text: name})
+     await AsyncStorage.setItem("myCity",this.state.text)
+     navigation.navigate('Cloud')
+    //  {cities: this.state.text})
+    
+  }
+
+  async componentDidMount(){
+    await AsyncStorage.setItem("myCity",this.state.text) 
+  }
+ 
   fetchCity = (text) => {
 
     this.setState({ text })
@@ -32,11 +50,9 @@ class SearchScreen extends React.Component{
           city: data2.RESULTS.slice(0, 9)
         })
       })
-
   }
-  render() {
-    
 
+  render() {
     //console.log(this.state.city)
     cityList = <Card><List.Item title="no city" /></Card>
 
@@ -44,7 +60,7 @@ class SearchScreen extends React.Component{
 
       cityList = this.state.city.map(cities => {
         return (
-          <Card style={{ margin: 5 }} key={cities.lat}>
+          <Card style={{ margin: 5 }} key={cities.lat} onPress={()=>this.listClicked(cities.name)}>
             <List.Item title={cities.name} />
           </Card>
         )
@@ -63,13 +79,10 @@ class SearchScreen extends React.Component{
           onChangeText={text => this.fetchCity(text)}
         />
 
-        <Button style={{backgroundColor: '#fff',margin:20, padding: 10,}} onPress={() => this.buttonClick()}>
+        <Button theme={{colors:{primary:"#00aaff"}}} style={{backgroundColor: '#fff',margin:20, padding: 10,}} onPress={() => this.buttonClick()}>
           Press me
         </Button>
-        <ScrollView>
           {cityList}
-        </ScrollView>
-
       </View>
     );
   }

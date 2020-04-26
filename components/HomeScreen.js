@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Alert, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Alert, Image, AsyncStorage } from 'react-native';
 import Header from './Header';
 import { Card, List, Title } from 'react-native-paper';
 import { color } from 'react-native-reanimated';
@@ -13,11 +13,20 @@ class HomeScreen extends React.Component {
       description: 'loading',
       icon: 'loading'
     }
-  }
+  };
 
-  getWeather = () => {
+  componentDidUpdate=async()=>{
+    AsyncStorage.getItem("myCity")
+    console.log("i m from storage"+AsyncStorage.getItem("myCity"))  
+ }
+  getWeather = async () => {
+    
+  //  // const { itemId } = navigation.getParam('cities', 'dhaka');
+  //   const { otherParam } = route.params;
+  
+  console.log(AsyncStorage.getItem("myCity"))  
+      cityName = "dhaka"
 
-    cityName = "Kushtia";
     try {
       fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&APPID=d7b1023e1d8d23485e603f31d14d9157`)
         .then(res => {
@@ -48,11 +57,12 @@ class HomeScreen extends React.Component {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getWeather()
+    console.log("i am from hmeeeeeeeeeeeeeeeeeeeeee....."+key)
   }
-
   render() {
+  
 
     return (
       <View style={styles.container}>
