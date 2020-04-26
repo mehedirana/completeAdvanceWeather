@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { StyleSheet, Text, View, ScrollView, Alert, Image, AsyncStorage } from 'react-native';
 import Header from './Header';
 import { Card, List, Title } from 'react-native-paper';
 import { color } from 'react-native-reanimated';
-const HomeScreen =({navigation})=>{
+const HomeScreen =({navigation, route})=>{
 
   state = {
     info: {
