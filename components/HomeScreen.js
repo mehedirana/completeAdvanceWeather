@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Alert, Image, AsyncStorage } from 'react-native';
 import Header from './Header';
 import { Card, List, Title } from 'react-native-paper';
-import { color } from 'react-native-reanimated';
-const HomeScreen = ({ navigation, route }) => {
 
+const HomeScreen = ({ navigation, route }) => {
+  
   const [info, setInfo] = useState({
     name: 'loading',
     temp: 'loading',
@@ -25,6 +25,7 @@ const HomeScreen = ({ navigation, route }) => {
     if (!cityName) {
       const { city } = route.params;
       cityName = city
+      console.log("////////////////////////////"+cityName)
     }
 
     try {
@@ -54,9 +55,10 @@ const HomeScreen = ({ navigation, route }) => {
     }
 
   }
-  if (route.params.city != "dhaka") {
-    getWeather()
-  }
+
+   if (route.params="dhaka") {
+       getWeather()
+   }
 
   return (
     <View style={styles.container}>
@@ -66,12 +68,12 @@ const HomeScreen = ({ navigation, route }) => {
         <View style={{ padding: 20, alignItems: 'center' }}>
           <Image
             style={{ width: 120, height: 120, justifyContent: 'center' }}
-            source={{ uri: 'http://openweathermap.org/img/w/' + this.state.info.icon + ".png" }}
+            source={{ uri: 'http://openweathermap.org/img/w/' + info.icon + ".png" }}
           />
-          <Title style={styles.text}>{this.state.info.name}</Title>
-          <Title style={styles.text}>Temparature: {this.state.info.temp}</Title>
-          <Title style={styles.text}>Humidity: {this.state.info.humidity}</Title>
-          <Title style={styles.text}>Description: {this.state.info.description}</Title>
+          <Title style={styles.text}>{info.name}</Title>
+          <Title style={styles.text}>Temparature: {info.temp}</Title>
+          <Title style={styles.text}>Humidity: {info.humidity}</Title>
+          <Title style={styles.text}>Description: {info.description}</Title>
 
         </View>
       </Card>

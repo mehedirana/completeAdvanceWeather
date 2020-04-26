@@ -2,11 +2,7 @@ import React,{useState} from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import { TextInput, Card, List, Button } from 'react-native-paper';
 import { AsyncStorage } from 'react-native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { useNavigation } from '@react-navigation/native';
 import Header from './Header';
-import { FlatList } from 'react-native-gesture-handler';
 
 const SearchScreen =({navigation})=>{
   
@@ -15,7 +11,6 @@ const SearchScreen =({navigation})=>{
 
   const fetchCity = (text) => {
     setCity(text)
-    this.setState({ text })
     fetch(`http://autocomplete.wunderground.com/aq?query=${text}`)
       .then(data => data.json())
       .then(data2 => {
@@ -27,13 +22,23 @@ const SearchScreen =({navigation})=>{
 
  const buttonClick= async()=>{
     await AsyncStorage.setItem("myCity",city)
-    navigation.navigate('Cloud', {city: city})
+    navigation.navigate('Cloud', {
+      screen: 'Cloud',
+      params:{
+        city: city
+      }
+    })
   }
 
   const listClicked= async(name)=>{
      setCity(name)
      await AsyncStorage.setItem("myCity", name)
-     navigation.navigate('Cloud' , {city: name})   
+     navigation.navigate('Cloud' , {
+      screen: 'Cloud',
+      params:{
+        city: name
+      }
+    })   
   }
 
     // cityList = <Card><List.Item title="no city" /></Card>
@@ -55,9 +60,10 @@ const SearchScreen =({navigation})=>{
         <Header />
 
         <TextInput
-          style={{ backgroundColor: '#fff' }}
-          label='City'
-          value={this.state.text}
+          style={{ backgroundColor: '#fff', padding: 5, margin: 10 }}
+          label='Type City Name'
+          value={city}
+          theme={{colors:{primary:"#00aaff"}}}
           onChangeText={(text) => fetchCity(text)}
         />
 
@@ -69,8 +75,8 @@ const SearchScreen =({navigation})=>{
           renderItem={({item})=>{
             return(
               <Card 
-              style={{margin:3, padding:20,}}
-              onPress ={()=>listClicked()}
+              style={{margin:5, padding:20,}}
+              onPress ={()=>listClicked(item.name)}
               >
                 <Text>{item.name}</Text>
               </Card>
