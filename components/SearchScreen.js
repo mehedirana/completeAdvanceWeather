@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
-import { TextInput, Card, List, Button } from 'react-native-paper';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { TextInput, Card, Button } from 'react-native-paper';
 import { AsyncStorage } from 'react-native';
 import Header from './Header';
 
@@ -22,22 +22,20 @@ const SearchScreen =({navigation})=>{
 
  const buttonClick= async()=>{
     await AsyncStorage.setItem("myCity",city)
-    navigation.navigate('Cloud', {
-      screen: 'Cloud',
-      params:{
+    navigation.navigate("Cloud", {
+      //screen: "Cloud",
         city: city
-      }
+      
     })
   }
 
   const listClicked= async(name)=>{
      setCity(name)
      await AsyncStorage.setItem("myCity", name)
-     navigation.navigate('Cloud' , {
-      screen: 'Cloud',
-      params:{
+     navigation.navigate("Cloud" , {
+      //screen: "Cloud",
         city: name
-      }
+      
     })   
   }
 

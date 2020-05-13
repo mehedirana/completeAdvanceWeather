@@ -87,8 +87,9 @@ class App extends React.Component {
 
 
         >
-          <Tab.Screen name="Cloud" component={HomeScreen} />
           <Tab.Screen name="Search" component={SearchScreen} />
+          <Tab.Screen name="Cloud" component={HomeScreen} />
+          
         </Tab.Navigator>
       </NavigationContainer>
 
