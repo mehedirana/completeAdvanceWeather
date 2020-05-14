@@ -23,6 +23,12 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.mehedirana.Weather",
+       "versionCode": 1,
+       "permission": [],
+       "icon": "./assets/icon.png"
     }
   }
 }
