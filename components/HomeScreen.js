@@ -1,38 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Alert, Image } from 'react-native';
+import { StyleSheet, View, Alert, Image, ScrollView } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import Header from './Header';
 import { Card, Title } from 'react-native-paper';
 import { AsyncStorage } from 'react-native';
 
 const HomeScreen = (props) => {
-  
+
   // const[id, setId] = useState({
   //   id: ''
   // })
-    // console.log("///////////////////////////////////////////////////"+JSON.stringify(props))
-    // console.log("///////////////////////////////////////////////////"+ props.route.params.otherParam)
+  // console.log("///////////////////////////////////////////////////"+JSON.stringify(props))
+  // console.log("///////////////////////////////////////////////////"+ props.route.params.otherParam)
   const [info, setInfo] = useState({
     name: 'loading',
     temp: 'loading',
     humidity: 'loading',
     description: 'loading',
     icon: 'loading',
-    id: 'loading'
+    id: 'loading',
+    feels_like: 'loading'
   })
 
-  useEffect(()=>{
-    
+  useEffect(() => {
+
     getWeather()
-    }, [props.route.params.city]);
+  }, [props.route.params.city]);
 
   const getWeather = async () => {
 
     let cityName = await AsyncStorage.getItem("myCity")
-      if (!cityName) {
-       const { city } = props.route.params.city;
-       cityName = city
-      }
+    if (!cityName) {
+      const { city } = props.route.params.city;
+      cityName = city
+    }
     try {
 
       fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&APPID=d7b1023e1d8d23485e603f31d14d9157`)
@@ -47,7 +48,8 @@ const HomeScreen = (props) => {
             temp: data.main.temp,
             humidity: data.main.humidity,
             description: data.weather[0].description,
-            icon: data.weather[0].icon
+            icon: data.weather[0].icon,
+            feels_like: data.main.feels_like,
           })
 
           console.log("here data:")
@@ -69,21 +71,25 @@ const HomeScreen = (props) => {
   return (
     <View style={styles.container}>
       <Header />
+      <ScrollView>
+        <Card style={{ margin: 20 }}>
+          <View style={{ padding: 20, alignItems: 'center' }}>
+            <Title style={styles.text}>{info.name}</Title>
+            <Image
+              style={{ width: 120, height: 120, justifyContent: 'center' }}
+              source={{ uri: 'http://openweathermap.org/img/w/' + info.icon + ".png" }}
+            />
+            <Title style={styles.text}>Description: {info.description}</Title>
+            <Title style={styles.text}>Temparature: {info.temp} C</Title>
+            <Title style={styles.text}>Feel Like : {info.feels_like}</Title>
+            <Title style={styles.text}>Humidity: {info.humidity}</Title>
 
-      <Card style={{ margin: 20 }}>
-        <View style={{ padding: 20, alignItems: 'center' }}>
-          <Image
-            style={{ width: 120, height: 120, justifyContent: 'center' }}
-            source={{ uri: 'http://openweathermap.org/img/w/' + info.icon + ".png" }}
-          />
-          <Title style={styles.text}>{info.name}</Title>
-          <Title style={styles.text}>Temparature: {info.temp}</Title>
-          <Title style={styles.text}>Humidity: {info.humidity}</Title>
-          <Title style={styles.text}>Description: {info.description}</Title>
-          {/* <Title style={styles.text}> {city}</Title> */}
+            {/* <Title style={styles.text}> {city}</Title> */}
 
-        </View>
-      </Card>
+          </View>
+        </Card>
+
+      </ScrollView>
 
     </View>
   );
